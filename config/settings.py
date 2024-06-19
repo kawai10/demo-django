@@ -62,7 +62,7 @@ MIDDLEWARE = [
 if DEBUG:
     MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware"] + MIDDLEWARE
 
-ROOT_URLCONF = "config.urls"
+ROOT_URLCONF = "src.urls"
 
 TEMPLATES = [
     {
