@@ -1,7 +1,15 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
 from . import api, views
 
 app_name = "accounts"
+
+router = DefaultRouter()
+router.register(
+    "",
+    api.UserViewSet,
+)
 
 urlpatterns = [
     path("gen", api.UserListGenAPIView.as_view(), name="gen-user-list"),
@@ -16,6 +24,7 @@ urlpatterns = [
         api.UserDetailMixinAPIView.as_view(),
         name="mixin-user-detail",
     ),
+    path("viewset", include(router.urls)),
     path("fbv", views.get_user_list, name="fbv-user-list"),
     path("fbv/<int:user_id>", views.get_user_detail, name="fbv-user-detail"),
 ]

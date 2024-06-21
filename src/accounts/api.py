@@ -16,6 +16,7 @@ from rest_framework.mixins import (
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
 from src.accounts.models import User
 from src.accounts.serializer import (
@@ -111,3 +112,9 @@ class UserListGenAPIView(ListCreateAPIView):
 class UserDetailGenAPIView(RetrieveUpdateDestroyAPIView):
     queryset = UserDetailSerializer.get_queryset()
     serializer_class = UserDetailSerializer
+
+
+# ViewSet
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
