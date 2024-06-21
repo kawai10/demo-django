@@ -1,6 +1,19 @@
 from django.http import Http404
 from rest_framework import status
-from rest_framework.generics import ListAPIView, RetrieveAPIView, get_object_or_404
+from rest_framework.generics import (
+    ListAPIView,
+    RetrieveAPIView,
+    get_object_or_404,
+    GenericAPIView,
+    CreateAPIView,
+)
+from rest_framework.mixins import (
+    ListModelMixin,
+    CreateModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -57,7 +70,44 @@ class UserDetailAPIView(APIView):
         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# MixIn
+class UserLIstMixinAPIView(ListModelMixin, CreateModelMixin, GenericAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        return self.list(request)
+
+    def post(self, request: Request, *args, **kwargs) -> Response:
+        return self.create(request)
+
+
+class UserDetailMixinAPIView(
+    RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, GenericAPIView
+):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        return self.retrieve(request)
+
+    def put(self, request, *args, **kwargs) -> Response:
+        return self.update(request)
+
+    def patch(self, request: Request, *args, **kwargs) -> Response:
+        return self.update(request, partial=True)
+
+    def delete(self, request: Request, *args, **kwargs) -> Response:
+        return self.destroy(request)
+
+
 # GEN APIView
+
+
+class UserCreateGenAPIView(CreateAPIView):
+    serializer_class = UserSerializer
+
+
 class UserListGenAPIView(ListAPIView):
     queryset = UserListSerializer.get_queryset()
     serializer_class = UserListSerializer
