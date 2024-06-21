@@ -10,7 +10,7 @@ class User(models.Model):
 
     class Meta:
         db_table = "users"
-        ordering = ["id"]
+        ordering = ["-id"]
         verbose_name_plural = "계정"
 
     def __str__(self):
