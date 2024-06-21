@@ -9,21 +9,28 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = "__all__"
 
+    @staticmethod
+    def get_queryset() -> QuerySet[User]:
+        return User.objects.all()
 
-class UserListSerializer(UserSerializer):
+
+class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "email", "name"]
+        exclude = ["created_at", "updated_at"]
+        extra_kwargs = {"password": {"write_only": True}}
 
     @staticmethod
     def get_queryset() -> QuerySet[User]:
-        return User.objects.all().only("id", "email", "name")
+        return User.objects.all().defer("password")
 
 
-class UserDetailSerializer(UserSerializer):
+class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        exclude = ["password"]
+        fields = "__all__"
+        extra_kwargs = {"password": {"write_only": True}}
+        read_only_fields = ["id", "created_at"]
 
     @staticmethod
     def get_queryset() -> QuerySet[User]:

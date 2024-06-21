@@ -6,7 +6,6 @@ app_name = "accounts"
 urlpatterns = [
     path("gen", api.UserListGenAPIView.as_view(), name="gen-user-list"),
     path("gen/<int:pk>", api.UserDetailGenAPIView.as_view(), name="gen-user-detail"),
-    path("gen/create", api.UserCreateGenAPIView.as_view(), name="gen-user-create"),
     path("view", api.UserListAPIView.as_view(), name="view-user-list"),
     path(
         "view/<int:user_id>", api.UserDetailAPIView.as_view(), name="view-user-detail"

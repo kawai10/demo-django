@@ -1,11 +1,10 @@
-from django.http import Http404
 from rest_framework import status
 from rest_framework.generics import (
-    ListAPIView,
     RetrieveAPIView,
     get_object_or_404,
     GenericAPIView,
-    CreateAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
 )
 from rest_framework.mixins import (
     ListModelMixin,
@@ -104,15 +103,11 @@ class UserDetailMixinAPIView(
 # GEN APIView
 
 
-class UserCreateGenAPIView(CreateAPIView):
-    serializer_class = UserSerializer
-
-
-class UserListGenAPIView(ListAPIView):
+class UserListGenAPIView(ListCreateAPIView):
     queryset = UserListSerializer.get_queryset()
     serializer_class = UserListSerializer
 
 
-class UserDetailGenAPIView(RetrieveAPIView):
+class UserDetailGenAPIView(RetrieveUpdateDestroyAPIView):
     queryset = UserDetailSerializer.get_queryset()
     serializer_class = UserDetailSerializer
